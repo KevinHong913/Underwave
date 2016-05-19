@@ -1,0 +1,12 @@
+
+html body {
+	height: 100vh;
+}
+
+body {
+	padding-bottom: 50px;
+}
+footer {
+	position: absolute;
+	bottom: 0;
+}

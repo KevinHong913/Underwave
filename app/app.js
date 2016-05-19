@@ -5,7 +5,7 @@
   app.config(function($stateProvider, $urlRouterProvider) {
 
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise('/');
     //
     // Now set up the states
     $stateProvider
@@ -32,10 +32,14 @@
     });
 
   //Controllers 
-  app.controller('HomeController', function($scope, $root){
-    $root.pageTitle = "Vessel Search Engine";
+  app.controller('AppController', function($scope){
+    $scope.pageTitle = "Vessel Search Engine";
   });
    
+  app.controller('SearchController', function($scope){
+    // $root.pageTitle = "Vessel Search Engine";
+  });
+
   app.controller('ResumeController', function($scope){
     $scope.educations = educations;
     $scope.courses = courses;
