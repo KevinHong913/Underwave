@@ -9,16 +9,20 @@
     //
     // Now set up the states
     $stateProvider
-      .state('search', {
+      .state('solr', {
         url: "/",
-        templateUrl: "app/views/search.html",
-        controller: 'SearchController'
+        templateUrl: "app/views/solr.html",
+        controller: 'SolrController'
       })
-      // .state('resume', {
-      //   url: "/resume",
-      //   templateUrl: "index/templates/resume.html",
-      //   controller: 'ResumeController'
-      // })
+      .state('solr.search', {
+        url: "/search",
+        templateUrl: "app/views/search.html",
+      })
+      .state('about', {
+        url: "/about",
+        templateUrl: "app/views/about.html",
+        controller: 'AboutController'
+      })
       // .state('projects', {
       //   url: "/projects",
       //     templateUrl: "index/templates/projects.html",
@@ -36,7 +40,7 @@
     $scope.pageTitle = "Vessel Search Engine";
   });
    
-  app.controller('SearchController', function($scope){
+  app.controller('SolrController', function($scope){
     // $root.pageTitle = "Vessel Search Engine";
   });
 

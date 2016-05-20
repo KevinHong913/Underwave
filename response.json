@@ -9,7 +9,10 @@
       "indent":"on",
       "facet":"on",
       "wt":"json"}},
-  "response":{"numFound":118,"start":0,"docs":[
+  "response":{
+    "numFound":118,
+    "start":0,
+    "docs":[
       {
         "url":["http://iuu-vessels.org/iuu/iuu/vessel?uid=54"],
         "keyValues.Status":["In Service/Commission"],
