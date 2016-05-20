@@ -1,6 +1,6 @@
 /* angularJS implement */
 (function(){
-  var app = angular.module('vessel-app',['ui.router']);
+  var app = angular.module('vessel-app',['ui.router', 'solr']);
 
   app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -16,7 +16,7 @@
       })
       .state('solr.search', {
         url: "/search",
-        templateUrl: "app/views/search.html",
+        templateUrl: "app/views/search.html"
       })
       .state('about', {
         url: "/about",
@@ -40,8 +40,9 @@
     $scope.pageTitle = "Vessel Search Engine";
   });
    
-  app.controller('SolrController', function($scope){
+  app.controller('SolrController', function($scope, $state){
     // $root.pageTitle = "Vessel Search Engine";
+    $state.go('.search');
   });
 
   app.controller('ResumeController', function($scope){

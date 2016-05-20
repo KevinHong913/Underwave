@@ -77,7 +77,7 @@ var solr = angular.module("solr", [])
     scope:{
     },
     restrict: "E",
-    templateUrl:"app/view/solr_search.html",
+    templateUrl:"./app/solr/view/solr_search.html",
     require: "^solr",
     link: function( scope, element, attrs, ctrl){
       scope.search = function(query, rows){
@@ -88,10 +88,10 @@ var solr = angular.module("solr", [])
         ctrl.search(query, rows);
       };
 
-      scope.roptions= ["3", "10", "20", "30"];
-      scope.rows="10";
-      scope.preload=attrs.preload;
-      scope.query=attrs.query;
+      scope.roptions = ["3", "10", "20", "30"];
+      scope.rows = "10";
+      scope.preload = attrs.preload;
+      scope.query = attrs.query;
       if (scope.preload){
         scope.search(scope.query, scope.rows);
       }
