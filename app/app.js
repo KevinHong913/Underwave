@@ -5,18 +5,22 @@
   app.config(function($stateProvider, $urlRouterProvider) {
 
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('');
     //
     // Now set up the states
     $stateProvider
       .state('solr', {
-        url: "/",
+        url: "",
         templateUrl: "app/views/solr.html",
         controller: 'SolrController'
       })
       .state('solr.search', {
         url: "/search",
         templateUrl: "app/views/search.html"
+      })
+      .state('solr.result', {
+        url: "/result",
+        templateUrl: "app/views/results.html"
       })
       .state('about', {
         url: "/about",
@@ -42,7 +46,9 @@
    
   app.controller('SolrController', function($scope, $state){
     // $root.pageTitle = "Vessel Search Engine";
-    $state.go('.search');
+    if($state.current.name === "solr"){
+      $state.go('solr.search');
+    }
   });
 
   app.controller('ResumeController', function($scope){

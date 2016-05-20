@@ -1,7 +1,7 @@
-var solr = angular.module("solr", [])
+var solr = angular.module("solr", ['ui.router'])
 
 .controller('facetGroupController', function($scope){
-  $scope.facets={};
+  $scope.facets = {};
   this.getFacets =  function(){ return $scope.facets;};
   this.registerFacet = function (facet){
     $scope.facets[facet.field]=facet;
@@ -28,7 +28,7 @@ var solr = angular.module("solr", [])
     scope: {},
     controller: 'facetGroupController',
     transclude: true,
-    templateUrl:"app/view/solr_facet_group.html",
+    templateUrl:"./app/solr/view/solr_facet_group.html",
     require:["^solr", "solrFacetGroup"],
     link: function(scope, element, attrs, ctrls){
       var solrCtrl=ctrls[0];
@@ -61,7 +61,7 @@ var solr = angular.module("solr", [])
       }
     },
     transclude: true,
-    templateUrl: "app/view/solr_selected.html",
+    templateUrl: "./app/solr/view/solr_selected.html",
     require:"^solr",
     link: function(scope, element, attrs, ctrl){
       scope.selected = function(){
@@ -72,7 +72,7 @@ var solr = angular.module("solr", [])
   }
 })
 
-.directive("solrSearch", function($location) {
+.directive("solrSearch", function($location, $state) {
   return {
     scope:{
     },
@@ -81,10 +81,13 @@ var solr = angular.module("solr", [])
     require: "^solr",
     link: function( scope, element, attrs, ctrl){
       scope.search = function(query, rows){
+        if($state.current.name === 'solr.search') {
+          $state.go('solr.result')
+        }
         rows = rows || '10';
-        query = query|| '*';
-        $location.search('q',query);
-        $location.search('rows',rows);
+        query = query || '*';
+        $location.search('q', query);
+        $location.search('rows', rows);
         ctrl.search(query, rows);
       };
 
@@ -109,7 +112,7 @@ var solr = angular.module("solr", [])
       results:"&",
     },
     require:"^solrFacetGroup",
-    templateUrl:"app/view/solr_facet.html",
+    templateUrl:"./app/solr/view/solr_facet.html",
     link: function( scope, element, attrs, ctrl){
       ctrl.registerFacet(scope);
 
@@ -132,7 +135,7 @@ var solr = angular.module("solr", [])
       remove:"@",
     },
     require: "^solr",
-    templateUrl:"app/view/solr_facet_result.html",
+    templateUrl:"./app/solr/view/solr_facet_result.html",
     link: function( scope, element, attrs, ctrl){
       scope.facetString = function(){ 
         return scope.field+':"'+scope.key+'"';
