@@ -1,6 +1,30 @@
-<div class="row search-template">
-  <div class="search-logo">
+<div class="row search-template" ng-hide="{{inSearch}}">
+  <div class="search-logo" ng-click="goHome()">
     <img src="assets/img/UNDERWAVE_small.png">
   </div>
   <solr-search query='{{params.q}}'></solr-search>
+</div>
+
+<div class="row result-template" ng-hide="!{{inSearch}}">
+  <div class="col-sm-3">
+    <div class="search-logo" ng-click='goHome()'>
+      <img src="assets/img/UNDERWAVE_small.png">
+    </div>
+    <solr-facet-group>
+      <solr-selected><h2>Selected:</h2></solr-selected>
+      <h3>Facet List:</h3>
+      <solr-facet display="Resource Type" field="mods_type_of_resource"></solr-facet>
+      <solr-facet display="Object Type"   field="object_type"></solr-facet>
+      <solr-facet display="Keyword"       field="mods_subject_ssim"></solr-facet>
+    </solr-facet-group>
+  </div>
+  <div class="col-md-9">
+    <solr-search query='{{params.q}}'></solr-search>
+    <h2>Results ({{numFound}})</h2>
+    <ul class="list-unstyled">
+      <li ng-repeat="doc in docs">
+        <result-document record=doc ></result-document>
+      </li>
+    </ul>
+  </div>
 </div>

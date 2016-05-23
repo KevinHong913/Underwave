@@ -40,12 +40,18 @@
     });
 
   //Controllers 
-  app.controller('AppController', function($scope){
+  app.controller('AppController', function($scope, $rootScope){
     $scope.pageTitle = "Vessel Search Engine";
+    $rootScope.inSearch = false;
   });
    
-  app.controller('SolrController', function($scope, $state){
-    // $root.pageTitle = "Vessel Search Engine";
+  app.controller('SolrController', function($scope, $state, $location, $rootScope){
+    // $rootScope.pageTitle = "Vessel Search Engine";
+    $scope.params = $location.search();
+    $scope.goHome = function() {
+      $rootScope.inSearch = false;
+      $state.go('solr.search');
+    }
     if($state.current.name === "solr"){
       $state.go('solr.search');
     }
@@ -60,6 +66,16 @@
 
   app.controller('ProjectController', function($scope){
 
+  });
+
+  app.directive("resultDocument", function() {
+    return {
+      restrict: "E",
+      scope :{
+        doc : "=record", 
+      },
+      templateUrl:"app/views/resultItem.html",
+    }
   });
    
 })();

@@ -1,7 +1,7 @@
 
 html, body {
 	/*height: 100%;*/
-	background-color: #fafafa;
+	background-color: #fdfdfd;
 }
 
 body {
@@ -21,7 +21,7 @@ footer {
 
 }
 
-.search-template #search-form {
+.search-template .search-form {
 	/*margin: auto;*/
 	margin-top: 30px;
 	text-align: center;
@@ -32,7 +32,22 @@ footer {
 	margin: auto;
 }
 
-.search-template #search-form .search-input {
+.search-template .search-form .search-input {
 	width: 300px;
 	max-width: 300px;	
+}
+
+/* ------ RESULT ------ */
+.result-template {
+	padding-top: 50px;
+}
+
+.result-template .search-logo {
+	text-align: center;
+	margin: auto;
+}
+
+.result-template .search-logo img {
+	width: 60%;
+	height: auto;
 }

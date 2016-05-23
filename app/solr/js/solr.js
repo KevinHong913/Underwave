@@ -1,5 +1,19 @@
 var solr = angular.module("solr", ['ui.router'])
 
+// .factory('searchMode', [function() {
+//   var searchMode = {};
+//   var mode = false;
+//   searchMode.getMode = function() {
+//     return mode;
+//   };
+
+//   searchMode.setMode = function(setValue){
+//     mode = setValue;
+//   };
+
+//   return searchMode;
+// }])
+
 .controller('facetGroupController', function($scope){
   $scope.facets = {};
   this.getFacets =  function(){ return $scope.facets;};
@@ -72,7 +86,7 @@ var solr = angular.module("solr", ['ui.router'])
   }
 })
 
-.directive("solrSearch", function($location, $state) {
+.directive("solrSearch", function($location, $state, $rootScope) {
   return {
     scope:{
     },
@@ -81,8 +95,13 @@ var solr = angular.module("solr", ['ui.router'])
     require: "^solr",
     link: function( scope, element, attrs, ctrl){
       scope.search = function(query, rows){
-        if($state.current.name === 'solr.search') {
-          $state.go('solr.result')
+        // if($state.current.name === 'solr.search') {
+        //   $state.go('solr.result')
+        // }
+        if (!$rootScope.inSearch) {
+          // searchMode.setMode(true);
+          $rootScope.inSearch = true;
+          console.log('searchMode = True');
         }
         rows = rows || '10';
         query = query || '*';
@@ -201,7 +220,7 @@ var solr = angular.module("solr", ['ui.router'])
           'rows': that.getRows(),
         };
 
-        selectedFacets=this.selected_facets;
+        selectedFacets = this.selected_facets;
         if (selectedFacets){
           params["fq"]= selectedFacets;
         }
@@ -214,6 +233,7 @@ var solr = angular.module("solr", ['ui.router'])
       that.search = function(query, rows){
         $http.jsonp(that.solrUrl, {params: that.buildSearchParams(), cache:true})
         .success(function(data) {
+          console.log("GET success");
           that.facet_fields = data.facet_counts.facet_fields;
           $scope.docs = data.response.docs;
           $scope.numFound = data.response.numFound;
