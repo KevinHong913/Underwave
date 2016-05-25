@@ -18,7 +18,7 @@ var solr = angular.module("solr", ['ui.router'])
   $scope.facets = {};
   this.getFacets =  function(){ return $scope.facets;};
   this.registerFacet = function (facet){
-    $scope.facets[facet.field]=facet;
+    $scope.facets[facet.field] = facet;
   };
   $scope.listFields = function() {
     var fields=[];
@@ -34,6 +34,20 @@ var solr = angular.module("solr", ['ui.router'])
       }
     }
   };
+})
+
+.directive("resultPagination", function() {
+  return {
+    restrict: "E",
+    scope: {},
+    // controler: ,
+    transclude: false,
+    // templateUrl: "",
+    // require: [""],
+    link: function(scope, element, attrs, ctrls){
+
+    }
+  }
 })
 
 .directive("solrFacetGroup", function() {
@@ -98,9 +112,9 @@ var solr = angular.module("solr", ['ui.router'])
         // if($state.current.name === 'solr.search') {
         //   $state.go('solr.result')
         // }
-        if (!$rootScope.inSearch) {
+        if (!$rootScope.inSearch.mode) {
           // searchMode.setMode(true);
-          $rootScope.inSearch = true;
+          $rootScope.inSearch.mode = true;
           console.log('searchMode = True');
         }
         rows = rows || '10';
@@ -218,6 +232,7 @@ var solr = angular.module("solr", ['ui.router'])
           'json.nl': "map",
           'json.wrf': 'JSON_CALLBACK',
           'rows': that.getRows(),
+          // 'start': that.getPage()
         };
 
         selectedFacets = this.selected_facets;
@@ -227,6 +242,8 @@ var solr = angular.module("solr", ['ui.router'])
         if ($scope.facet_group){
           params["facet.field"] = $scope.facet_group.listFields();
         }
+
+        console.log(params);
         return params;
       };
 
@@ -234,6 +251,7 @@ var solr = angular.module("solr", ['ui.router'])
         $http.jsonp(that.solrUrl, {params: that.buildSearchParams(), cache:true})
         .success(function(data) {
           console.log("GET success");
+          console.log(data);
           that.facet_fields = data.facet_counts.facet_fields;
           $scope.docs = data.response.docs;
           $scope.numFound = data.response.numFound;

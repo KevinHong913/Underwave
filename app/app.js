@@ -42,14 +42,16 @@
   //Controllers 
   app.controller('AppController', function($scope, $rootScope){
     $scope.pageTitle = "Vessel Search Engine";
-    $rootScope.inSearch = false;
+    $rootScope.inSearch = {
+      mode: false
+    }
   });
    
   app.controller('SolrController', function($scope, $state, $location, $rootScope){
     // $rootScope.pageTitle = "Vessel Search Engine";
     $scope.params = $location.search();
     $scope.goHome = function() {
-      $rootScope.inSearch = false;
+      $rootScope.inSearch.mode = false;
       $state.go('solr.search');
     }
     if($state.current.name === "solr"){
@@ -57,16 +59,16 @@
     }
   });
 
-  app.controller('ResumeController', function($scope){
-    $scope.educations = educations;
-    $scope.courses = courses;
-    $scope.skills = skills;
-    $scope.experiences = experiences;
-  });
+  // app.controller('ResumeController', function($scope){
+  //   $scope.educations = educations;
+  //   $scope.courses = courses;
+  //   $scope.skills = skills;
+  //   $scope.experiences = experiences;
+  // });
 
-  app.controller('ProjectController', function($scope){
+  // app.controller('ProjectController', function($scope){
 
-  });
+  // });
 
   app.directive("resultDocument", function() {
     return {
