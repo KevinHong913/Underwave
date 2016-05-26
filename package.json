@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node index.js"
   },
+  "readme": {
+    "README.md"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KevinHong913/Vessel-Search-Engine.git"

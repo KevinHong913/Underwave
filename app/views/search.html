@@ -20,7 +20,7 @@
     </solr-facet-group>
   </div>
   <div class="col-md-9">
-    <solr-search query='{{params.q}}'></solr-search>
+    <solr-search query='{{params.q}}' preload="true"></solr-search>
     <h2>Results ({{numFound}})</h2>
     <ul class="list-unstyled">
       <li ng-repeat="doc in docs">
