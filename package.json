@@ -1,0 +1,19 @@
+{
+  "name": "vessel-search-engine",
+  "version": "1.0.0",
+  "description": "A search engine defined for vessels searching",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinHong913/Vessel-Search-Engine.git"
+  },
+  "author": "Kevin Hong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KevinHong913/Vessel-Search-Engine/issues"
+  },
+  "homepage": "https://github.com/KevinHong913/Vessel-Search-Engine#readme"
+}
