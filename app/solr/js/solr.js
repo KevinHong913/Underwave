@@ -17,20 +17,30 @@ var solr = angular.module("solr", ['ui.router'])
 .controller('facetGroupController', function($scope){
   $scope.facets = {};
   this.getFacets =  function(){ return $scope.facets;};
+  this.isRangeMode = function(facet_key) { 
+    var result = $scope.facets[facet_key].range; 
+    return result;
+  };
   this.registerFacet = function (facet){
     $scope.facets[facet.field] = facet;
   };
   $scope.listFields = function() {
-    var fields=[];
+    var fields = [];
     for (var k in $scope.facets){
       fields.push($scope.facets[k].field);
     }
     return fields;
   };
-  this.setFacetResult = function( facet_key, facet_results){
+  this.setFacetResult = function( facet_key, facet_results ){
     for (var k in $scope.facets){
       if ($scope.facets[k].field === facet_key){
-        $scope.facets[k].results = facet_results;
+        if(!!$scope.facets[k].range) {
+          $scope.facets[k].results = facet_results.counts;
+          $scope.facets[k].gap = facet_results.gap;
+
+        } else {
+          $scope.facets[k].results = facet_results;
+        }
       }
     }
   };
@@ -59,16 +69,21 @@ var solr = angular.module("solr", ['ui.router'])
     templateUrl:"./app/solr/view/solr_facet_group.html",
     require:["^solr", "solrFacetGroup"],
     link: function(scope, element, attrs, ctrls){
-      var solrCtrl=ctrls[0];
-      var facetGroupCtrl= ctrls[1];
+      var solrCtrl = ctrls[0];
+      var facetGroupCtrl = ctrls[1];
 
       solrCtrl.setFacetGroup(scope);
       scope.$watch(
-        function(){ return solrCtrl.facet_fields;},
-        function ( newVal, oldVal){
+        function(){ return solrCtrl.facet_results;},
+        function (newVal, oldVal){
           if ( newVal !== oldVal ) {
-            for (var k in facetGroupCtrl.getFacets()){
-              facetGroupCtrl.setFacetResult(k, solrCtrl.facet_fields[k]);
+            for (var k in facetGroupCtrl.getFacets()){ // k is just value name
+              if(facetGroupCtrl.isRangeMode(k)) {
+                facetGroupCtrl.setFacetResult(k, solrCtrl.facet_results.facet_ranges[k]); 
+              } else {
+                facetGroupCtrl.setFacetResult(k, solrCtrl.facet_results.facet_fields[k]);
+              }
+
             }
           }
         }
@@ -141,8 +156,10 @@ var solr = angular.module("solr", ['ui.router'])
     restrict: "E",
     scope: {
       display: "@",
-      field: "@",
-      results:"&",
+      field:   "@",
+      results: "&",
+      range:   "=",
+      gap:     "&",
     },
     require:"^solrFacetGroup",
     templateUrl:"./app/solr/view/solr_facet.html",
@@ -154,6 +171,21 @@ var solr = angular.module("solr", ['ui.router'])
         return !scope.results || (es5getprops(scope.results).length === 0);
         // return (es5getprops(scope.results).length === 0);
       };
+
+      scope.resultsToArray = function() {
+        var results = scope.results;
+        var res = [];
+
+        for (var key in results) {
+          res.push({
+            key: key,
+            count: results[key]
+          });
+      
+        }
+        // return res;
+        scope.resultsArray = res;
+      }
     }
   }
 })
@@ -166,19 +198,28 @@ var solr = angular.module("solr", ['ui.router'])
       key: "@",
       count: "@",
       remove:"@",
+      range: "@",
+      gap: "@"
     },
     require: "^solr",
     templateUrl:"./app/solr/view/solr_facet_result.html",
     link: function( scope, element, attrs, ctrl){
       scope.facetString = function(){ 
-        return scope.field+':"'+scope.key+'"';
+        if(scope.range == "true") {
+          var upperRange = 1 * scope.key + 1 * scope.gap - 1;
+          var str = scope.field + ':[' + scope.key + ' TO ' + upperRange + ']';
+          return str;
+        } else {
+          return scope.field + ':"' + scope.key + '"';
+        }
+        
       };
 
       scope.isSelected = function(){
         selectedFacets = ctrl.selected_facets;
         facetString = scope.facetString();
         for (i in selectedFacets){
-          if (selectedFacets[i]==facetString) return true;
+          if (selectedFacets[i] == facetString) return true;
         }
         return false;
 
@@ -199,6 +240,17 @@ var solr = angular.module("solr", ['ui.router'])
         $location.search('selected_facets', selectedFacets);
         ctrl.search();
       };
+
+      scope.createSelectField = function(fieldName) {
+
+          if(fieldName === "keyValues.vesselSizeLength" ) {
+            return "Length";
+          } else if (fieldName === "keyValues.vesselSizeWidth" ) {
+            return "Width";
+          } else if (fieldName === "keyValues.vesselFlag") {
+            return "Flag";
+          }
+      }
     }
   }
 })
@@ -214,8 +266,8 @@ var solr = angular.module("solr", ['ui.router'])
     restrict: 'E',
     controller: function($scope, $http, $location) {
       var that = this;
-      that.facet_fields={};
-      that.selected_facets=[];
+      that.facet_results = {};
+      that.selected_facets = [];
       that.getQuery=function(){
         return $location.search().q || "*";
       }
@@ -237,10 +289,17 @@ var solr = angular.module("solr", ['ui.router'])
 
         selectedFacets = this.selected_facets;
         if (selectedFacets){
-          params["fq"]= selectedFacets;
+          params["fq"] = selectedFacets;
         }
         if ($scope.facet_group){
           params["facet.field"] = $scope.facet_group.listFields();
+          params["facet.range"] = ["keyValues.vesselSizeLength", "keyValues.vesselSizeWidth"];
+          params["facet.range.start"] = "1";
+          params["f.keyValues.vesselSizeWidth.facet.range.end"] = "150"
+          params["f.keyValues.vesselSizeLength.facet.range.end"] = "1500"
+          // params["facet.range.include"] = "edge";
+          params["f.keyValues.vesselSizeWidth.facet.range.gap"] = "5";
+          params["f.keyValues.vesselSizeLength.facet.range.gap"] = "50";
         }
 
         console.log(params);
@@ -252,7 +311,7 @@ var solr = angular.module("solr", ['ui.router'])
         .success(function(data) {
           console.log("GET success");
           console.log(data);
-          that.facet_fields = data.facet_counts.facet_fields;
+          that.facet_results = data.facet_counts;
           $scope.docs = data.response.docs;
           $scope.numFound = data.response.numFound;
           that.selected_facets = that.getSelectedFacets();
@@ -269,6 +328,8 @@ var solr = angular.module("solr", ['ui.router'])
       this.getSelectedFacetsObjects = function(){
         var retValue = [];
         this.selected_facets.forEach( function(value, key){
+          console.log("selected_facets value: " + value);
+          console.log("selected_facets key: " + key);
           split_val = value.split(":");
           retValue.push({
             field: split_val[0],
@@ -281,7 +342,7 @@ var solr = angular.module("solr", ['ui.router'])
 
       this.getSelectedFacets = function(){
         selected = $location.search().selected_facets;
-        selectedFacets =[];
+        selectedFacets = [];
         if (angular.isArray(selected)) {
           selectedFacets = selected;
         } else {

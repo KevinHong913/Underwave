@@ -1,3 +1,5 @@
-<span ng-show="remove"><a ng-click="removeFacet()">{{key}}</a></span>
-<span ng-show="isSelected() && !remove"> {{key}} <em>({{count}})</em> </span>
-<span ng-hide="isSelected()"> <a ng-click="addFacet()"> {{key}}  <em>({{count}})</em> </a></span>
+<div ng-init="addRange = 1*key + 1*gap - 1 ;final_key = (range === 'true' ? key + ' - ' + addRange + 'm': key)">
+	<span ng-show="remove"><a ng-click="removeFacet()">{{createSelectField(field)}}: {{key}}  <em>({{count}})</em> </a></span>
+	<span ng-show="isSelected() && !remove"> {{final_key}} <em>({{count}})</em> </span>
+	<span ng-hide="isSelected() || remove"> <a ng-click="addFacet()"> {{final_key}}  <em>({{count}})</em> </a></span>
+</div>
