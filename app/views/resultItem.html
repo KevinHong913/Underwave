@@ -1,39 +1,39 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <h5>
-      <a ng-href="{{doc['url'][0]}}" target="_blank">
-        {{doc["keyValues.vesselName"][0] || "N/A"}}
+      <a ng-href="{{doc.response['url'][0]}}" target="_blank">
+        {{doc.highlight["keyValues.vesselName"][0] || doc.response["keyValues.vesselName"][0] || "N/A"}}
       </a>
     </h5>
     <div class="result-detail-panel row">
       <div class="col-sm-4">
-        <img class="vessel-thumbnail" ng-src="{{doc['keyValues.vesselImgUrl'][0]}}">
+        <img class="vessel-thumbnail" ng-src="{{doc.response['keyValues.vesselImgUrl'][0]}}">
       </div>
       <div class="col-sm-8">
       <table class="result-detail-table">
         <tr>
           <th>IMO</th>
-          <td>{{doc["keyValues.vesselMMSI"][0] || "N/A"}}</td>
+          <td>{{doc.highlight["keyValues.vesselMMSI"][0] || doc.response["keyValues.vesselMMSI"][0] || "N/A"}}</td>
         </tr>
         <tr>
           <th>Flag</th>
-          <td>{{doc["keyValues.vesselFlag"][0] || "N/A"}}</td>
+          <td>{{doc.highlight["keyValues.vesselFlag"][0] || doc.response["keyValues.vesselFlag"][0] || "N/A"}}</td>
         </tr>
         <tr>
           <th>Ship Type</th>
-          <td>{{doc["keyValues.vesselType"][0] || "N/A"}}</td>
+          <td>{{doc.highlight["keyValues.vesselType"][0] || doc.response["keyValues.vesselType"][0] || "N/A"}}</td>
         </tr>
         <tr>
           <th>Built</th>
-          <td>{{doc["keyValues.ValidPeriod"][0] || "N/A"}}</td>
+          <td>{{doc.highlight["keyValues.ValidPeriod"][0] || doc.response["keyValues.ValidPeriod"][0] || "N/A"}}</td>
         </tr>
         <tr>
           <th>Size</th>
-          <td>{{doc["keyValues.vesselSizeLength"][0] || "N/A" }} x {{doc["keyValues.vesselSizeWidth"][0] || "N/A"}}m</td>
+          <td>{{doc.highlight["keyValues.vesselSizeLength"][0] || doc.response["keyValues.vesselSizeLength"][0] || "N/A" }} x {{doc.highlight["keyValues.vesselSizeWidth"][0] || doc.response["keyValues.vesselSizeWidth"][0] || "N/A"}}m</td>
         </tr>
         <tr>
           <th>GT</th>
-          <td>{{doc["keyValues.vesselGrossTonnage"][0] || "N/A"}}</td>
+          <td>{{doc.highlight["keyValues.vesselGrossTonnage"][0] || doc.response["keyValues.vesselGrossTonnage"][0] || "N/A"}}</td>
         </tr>
       </table>
     </div>

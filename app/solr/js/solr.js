@@ -75,9 +75,6 @@ var solr = angular.module("solr", ['ui.router'])
       scope.setPage = function(pageNum) {
         ctrl.setPage(pageNum);
       };
-
-
-
     }
   }
 })
@@ -205,7 +202,6 @@ var solr = angular.module("solr", ['ui.router'])
           });
       
         }
-        // return res;
         scope.resultsArray = res;
       }
     }
@@ -277,6 +273,10 @@ var solr = angular.module("solr", ['ui.router'])
   }
 })
 
+
+/** Note: if the variables in scope are '=', it needs to be declare in the directive tag.
+ *  Also 
+**/
 .directive("solr", function() {
   return {
     scope: {
@@ -285,10 +285,11 @@ var solr = angular.module("solr", ['ui.router'])
       preload: '=',
       numFound: '=',
       currentpage: '=',
-      pagecount: '='
+      pagecount: '=',
+      highlights: '='
     },
     restrict: 'E',
-    transclude:true,
+    transclude: true,
     template: '<div ng-transclude></div>',
     // controllerAs: 'solrController',
     controller: function($scope, $http, $location) {
@@ -304,14 +305,7 @@ var solr = angular.module("solr", ['ui.router'])
         return $location.search().rows || "10";
       }
 
-      that.getPageCount = function() {
-        return $scope.pagecount;
-      }
-
-      that.getCurrentPage = function() {
-        return $scope.currentpage;
-      }
-
+      /* pagination */
       that.prevPage = function() {
         $scope.currentpage = $scope.currentpage - 1;
       }
@@ -324,16 +318,21 @@ var solr = angular.module("solr", ['ui.router'])
         $scope.currentpage = pageNum;
       }
 
+      /* build search query params */
       that.buildSearchParams = function(){
         params = {
-          'q': that.getQuery(),
-          'facet': "on",
+          'q':        that.getQuery(),
+          'hl':       'on',
+          'hl.fl':    '*',
+          'indent':   'on',
+          'facet':    'on',
           'facet.mincount':"1",
-          'wt': 'json',
-          'json.nl': "map",
+          'wt':       'json',
+          'json.nl':  "map",
           'json.wrf': 'JSON_CALLBACK',
-          'rows': that.getRows(),
-          'start': $scope.currentpage * that.getRows()
+          'rows':     that.getRows(),
+          'start':    $scope.currentpage * that.getRows()
+
         };
 
         selectedFacets = this.selected_facets;
@@ -342,6 +341,7 @@ var solr = angular.module("solr", ['ui.router'])
         }
         if ($scope.facet_group){
           params["facet.field"] = $scope.facet_group.listFields();
+          /* set range facet manually */
           params["facet.range"] = ["keyValues.vesselSizeLength", "keyValues.vesselSizeWidth"];
           params["facet.range.start"] = "1";
           params["f.keyValues.vesselSizeWidth.facet.range.end"] = "150"
@@ -361,12 +361,23 @@ var solr = angular.module("solr", ['ui.router'])
           console.log("GET success");
           console.log(data);
           that.facet_results = data.facet_counts;
-          $scope.docs = data.response.docs;
+          $scope.docs = that.mapDocAndHl(data.response.docs, data.highlighting);
           $scope.numFound = data.response.numFound;
           that.selected_facets = that.getSelectedFacets();
           that.selected_facets_obj = that.getSelectedFacetsObjects();
           $scope.pagecount = Math.ceil($scope.numFound / that.getRows() - 1);
         });
+      };
+
+      that.mapDocAndHl = function(docs, highlights) {
+        var resultList = [];
+        docs.forEach( function(doc) {
+          resultList.push( {
+            response: doc,
+            highlight: highlights[doc.id]
+          });
+        });
+        return resultList; 
       };
 
       $scope.search = that.search;
@@ -417,6 +428,7 @@ var solr = angular.module("solr", ['ui.router'])
         true
       );
 
+      /* When currentPage change -> search */
       $scope.$watch(
         function(){ return $scope.currentpage},
         function ( newVal, oldVal){
