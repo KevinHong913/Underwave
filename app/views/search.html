@@ -22,6 +22,24 @@
   <div class="col-md-9">
     <solr-search query='{{params.q}}' preload="true"></solr-search>
     <h2>Results ({{numFound}})</h2>
+    <result-pagination pagecount='pagecount' currentpage='currentpage'></result-pagination>
+
+<!-- 		<ul class="pagination">
+		  <li>
+		    <a href="#" aria-label="Previous">
+		      <span aria-hidden="true">&laquo;</span>
+		    </a>
+		  </li>
+		  <li ng-repeat="page in getPage() | limitTo: 10"><a>{{$index}}</a></li>
+		  <li>
+		    <a href="#" aria-label="Next">
+		      <span aria-hidden="true">&raquo;</span>
+		    </a>
+		  </li>
+		  <li><a ng-click= 'currentPage == 0 || prevPage()'>Previous Page</a></li>
+		  <li><a ng-click=' currentPage == PageCount || nextPage()'>Next Page</a></li>
+		</ul> -->
+
     <ul class="list-unstyled">
       <li ng-repeat="doc in docs">
         <result-document record=doc ></result-document>

@@ -49,12 +49,34 @@ var solr = angular.module("solr", ['ui.router'])
 .directive("resultPagination", function() {
   return {
     restrict: "E",
-    scope: {},
-    // controler: ,
+    scope: {
+      pagecount: "=",
+      currentpage: "="
+    },
     transclude: false,
-    // templateUrl: "",
-    // require: [""],
-    link: function(scope, element, attrs, ctrls){
+    templateUrl: "./app/solr/view/result_pagination.html",
+    require: "^solr",
+    link: function(scope, element, attrs, ctrl){
+      
+      scope.prevPage = function() {
+        if(scope.currentpage !== 0) {
+          // scope.currentpage = scope.currentpage - 1;
+          ctrl.prevPage();
+        }
+      };
+
+      scope.nextPage = function() {
+        if(scope.currentpage != scope.pagecount) {
+          // scope.currentpage = scope.currentpage + 1;
+          ctrl.nextPage();
+        }
+      };
+
+      scope.setPage = function(pageNum) {
+        ctrl.setPage(pageNum);
+      };
+
+
 
     }
   }
@@ -262,17 +284,44 @@ var solr = angular.module("solr", ['ui.router'])
       docs: '=',
       preload: '=',
       numFound: '=',
+      currentpage: '=',
+      pagecount: '='
     },
     restrict: 'E',
+    transclude:true,
+    template: '<div ng-transclude></div>',
+    // controllerAs: 'solrController',
     controller: function($scope, $http, $location) {
       var that = this;
       that.facet_results = {};
       that.selected_facets = [];
-      that.getQuery=function(){
+      $scope.currentpage = 0;
+      $scope.pagecount = 0;
+      that.getQuery = function(){
         return $location.search().q || "*";
       }
-      that.getRows=function(){
+      that.getRows = function(){
         return $location.search().rows || "10";
+      }
+
+      that.getPageCount = function() {
+        return $scope.pagecount;
+      }
+
+      that.getCurrentPage = function() {
+        return $scope.currentpage;
+      }
+
+      that.prevPage = function() {
+        $scope.currentpage = $scope.currentpage - 1;
+      }
+
+      that.nextPage = function() {
+        $scope.currentpage = $scope.currentpage + 1;
+      }
+
+      that.setPage = function(pageNum) {
+        $scope.currentpage = pageNum;
       }
 
       that.buildSearchParams = function(){
@@ -284,7 +333,7 @@ var solr = angular.module("solr", ['ui.router'])
           'json.nl': "map",
           'json.wrf': 'JSON_CALLBACK',
           'rows': that.getRows(),
-          // 'start': that.getPage()
+          'start': $scope.currentpage * that.getRows()
         };
 
         selectedFacets = this.selected_facets;
@@ -316,6 +365,7 @@ var solr = angular.module("solr", ['ui.router'])
           $scope.numFound = data.response.numFound;
           that.selected_facets = that.getSelectedFacets();
           that.selected_facets_obj = that.getSelectedFacetsObjects();
+          $scope.pagecount = Math.ceil($scope.numFound / that.getRows() - 1);
         });
       };
 
@@ -359,6 +409,16 @@ var solr = angular.module("solr", ['ui.router'])
 
       $scope.$watch(
         function(){ return $location.search();},
+        function ( newVal, oldVal){
+          if ( newVal !== oldVal ) {
+            that.search()
+          }
+        },
+        true
+      );
+
+      $scope.$watch(
+        function(){ return $scope.currentpage},
         function ( newVal, oldVal){
           if ( newVal !== oldVal ) {
             that.search()

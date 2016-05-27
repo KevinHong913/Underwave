@@ -51,3 +51,18 @@ footer {
 	width: 60%;
 	height: auto;
 }
+
+.result-detail-panel .vessel-thumbnail {
+	width: 100%;
+}
+
+.result-pagination {
+	width: 100%;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.result-pagination .pagination {
+	margin: auto;
+	display: table;
+}

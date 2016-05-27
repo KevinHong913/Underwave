@@ -5,33 +5,38 @@
         {{doc["keyValues.vesselName"][0] || "N/A"}}
       </a>
     </h5>
-    <div class="result-detail-panel">
-			<table class="result-detail-table">
-				<tr>
-					<th>IMO</th>
-					<td>{{doc["keyValues.vesselMMSI"][0] || "N/A"}}</td>
-				</tr>
-				<tr>
-					<th>Flag</th>
-					<td>{{doc["keyValues.vesselFlag"][0] || "N/A"}}</td>
-				</tr>
-				<tr>
-					<th>Ship Type</th>
-					<td>{{doc["keyValues.vesselType"][0] || "N/A"}}</td>
-				</tr>
-				<tr>
-					<th>Built</th>
-					<td>{{doc["keyValues.ValidPeriod"][0] || "N/A"}}</td>
-				</tr>
-				<tr>
-					<th>Size</th>
-					<td>{{doc["keyValues.vesselSizeLength"][0] || "N/A" }} x {{doc["keyValues.vesselSizeWidth"][0] || "N/A"}}m</td>
-				</tr>
-				<tr>
-					<th>GT</th>
-					<td>{{doc["keyValues.vesselGrossTonnage"][0] || "N/A"}}</td>
-				</tr>
-			</table>
+    <div class="result-detail-panel row">
+      <div class="col-sm-4">
+        <img class="vessel-thumbnail" ng-src="{{doc['keyValues.vesselImgUrl'][0]}}">
+      </div>
+      <div class="col-sm-8">
+      <table class="result-detail-table">
+        <tr>
+          <th>IMO</th>
+          <td>{{doc["keyValues.vesselMMSI"][0] || "N/A"}}</td>
+        </tr>
+        <tr>
+          <th>Flag</th>
+          <td>{{doc["keyValues.vesselFlag"][0] || "N/A"}}</td>
+        </tr>
+        <tr>
+          <th>Ship Type</th>
+          <td>{{doc["keyValues.vesselType"][0] || "N/A"}}</td>
+        </tr>
+        <tr>
+          <th>Built</th>
+          <td>{{doc["keyValues.ValidPeriod"][0] || "N/A"}}</td>
+        </tr>
+        <tr>
+          <th>Size</th>
+          <td>{{doc["keyValues.vesselSizeLength"][0] || "N/A" }} x {{doc["keyValues.vesselSizeWidth"][0] || "N/A"}}m</td>
+        </tr>
+        <tr>
+          <th>GT</th>
+          <td>{{doc["keyValues.vesselGrossTonnage"][0] || "N/A"}}</td>
+        </tr>
+      </table>
+    </div>
     </div>
   </div>
 </div>
