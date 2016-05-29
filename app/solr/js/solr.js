@@ -155,6 +155,7 @@ var solr = angular.module("solr", ['ui.router'])
         query = query || '*';
         $location.search('q', query);
         $location.search('rows', rows);
+        ctrl.setPage(0);
         ctrl.search(query, rows);
       };
 
@@ -248,6 +249,7 @@ var solr = angular.module("solr", ['ui.router'])
           selectedFacets = ctrl.selected_facets;
           selectedFacets.push(scope.facetString());
           $location.search('selected_facets', selectedFacets);
+          ctrl.setPage(0);
           ctrl.search();
         }
       };
@@ -256,6 +258,7 @@ var solr = angular.module("solr", ['ui.router'])
         selectedFacets = ctrl.selected_facets;
         selectedFacets.pop(scope.facetString());
         $location.search('selected_facets', selectedFacets);
+        ctrl.setPage(0);
         ctrl.search();
       };
 
@@ -422,7 +425,7 @@ var solr = angular.module("solr", ['ui.router'])
         function(){ return $location.search();},
         function ( newVal, oldVal){
           if ( newVal !== oldVal ) {
-            that.search()
+            that.search();
           }
         },
         true
@@ -433,7 +436,7 @@ var solr = angular.module("solr", ['ui.router'])
         function(){ return $scope.currentpage},
         function ( newVal, oldVal){
           if ( newVal !== oldVal ) {
-            that.search()
+            that.search();
           }
         },
         true
