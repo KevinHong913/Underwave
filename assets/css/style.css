@@ -2,6 +2,7 @@
 html, body {
 	/*height: 100%;*/
 	background-color: #fdfdfd;
+	/*background-color: #F5F1D0;*/
 }
 
 body {
@@ -12,30 +13,34 @@ footer {
 	bottom: 0;
 }
 
+/* ------ FACET ------ */
+.solr-facet-template {
+	margin-left: 15px;
+}
 
 /* ------ SEARCH ------ */
-.search-template {
-	padding-top: 15vh;
-	width: 50vw;
-	margin: auto;
-
-}
-
-.search-template .search-form {
+.search-form {
 	/*margin: auto;*/
-	margin-top: 30px;
-	text-align: center;
+	padding-top: 30px;
+	/*text-align: center;*/
+	margin-bottom: 45px;
 }
 
-.search-template .search-logo {
+.search-form #search-input {
+	width: 300px;
+	/*max-width: 300px;	*/
+}
+
+.search-form #search-select {
+	height: 100%;
+	box-shadow: none;
+}
+
+.search-logo {
 	text-align: center;
 	margin: auto;
 }
 
-.search-template .search-form .search-input {
-	width: 300px;
-	max-width: 300px;	
-}
 
 /* ------ RESULT ------ */
 .result-template {

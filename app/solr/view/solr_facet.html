@@ -1,8 +1,9 @@
-<h3 ng-hide="isEmpty()">{{display}}:</h3>
-<ul ng-init="limit = 10;">
-  <li ng-repeat="(k, v)  in results" ng-if="$index < limit">
-    <solr-facet-result field="{{field}}" key="{{k}}" count="{{v}}" range="{{range}}" gap="{{gap}}"></solr-facet-result>
-  </li>
-  <span ng-hide="limit >= results.length" ng-click="limit = limit + 10"><a>show more...</a></span>
-
-</ul>
+<div class="solr-facet-template">
+  <h4 ng-hide="isEmpty()">{{display}}:</h4>
+  <ul ng-init="limit = 10;">
+    <li ng-repeat="(k, v)  in results" ng-if="$index < limit">
+      <solr-facet-result field="{{field}}" key="{{k}}" count="{{v}}" range="{{range}}" gap="{{gap}}"></solr-facet-result>
+    </li>
+    <span ng-hide="limit >= results.length" ng-click="limit = limit + 10"><a>show more...</a></span>
+  </ul>
+</div>
