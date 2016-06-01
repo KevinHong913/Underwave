@@ -1,6 +1,6 @@
 <div class="row search-template" ng-hide={{!inSearch.mode}}>
   <div class="search-logo" ng-click="goHome()">
-    <img src="assets/img/UNDERWAVE_small.png">
+    <img src="assets/img/new-logo.png">
   </div>
   <!-- <solr-search query='{{params.q}}'></solr-search> -->
 </div>
@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-sm-3">
       <div class="search-logo" ng-click='goHome()'>
-        <img src="assets/img/UNDERWAVE_small.png">
+        <img src="assets/img/new-logo.png">
       </div>
     </div>  
 
@@ -36,6 +36,7 @@
         <solr-facet display="Flag Country" field="keyValues.vesselFlag" range=false ></solr-facet>
         <solr-facet display="Length" field="keyValues.vesselSizeLength" range=true ></solr-facet>
         <solr-facet display="Width"  field="keyValues.vesselSizeWidth" range=true ></solr-facet>
+        <solr-facet display="Ship Type"  field="keyValues.vesselType" range=false ></solr-facet>
       </solr-facet-group>
     </div>
     <div class="col-md-9">

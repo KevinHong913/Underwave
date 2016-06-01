@@ -168,18 +168,35 @@ var solr = angular.module("solr", ['ui.router','ui.bootstrap'])
       }
 
       scope.getSuggest = function(val) {
-        return $http.get('//ec2-54-200-117-57.us-west-2.compute.amazonaws.com:8983/solr/vessels/suggesthandler', {
+        return $http.jsonp('//ec2-54-200-117-57.us-west-2.compute.amazonaws.com:8983/solr/vessels/suggesthandler', {
         params: {
-          indent: 'on',
-          q: val,
-          wt: 'json'
-        }
+          'indent': 'on',
+          'q': val,
+          'wt': 'json',
+          'json.wrf': 'JSON_CALLBACK',
+        }, cache: true
         }).then(function(response){
-          return response.suggest.mySuggester[val].suggestions.map(function(item){
-            return term;
+          // return response.suggest.mySuggester[val].suggestions;
+          return response.data.suggest.mySuggester[val].suggestions.map(function(item){
+            console.log(item.term);
+            return item.term.replace('<b>', "").replace('</b>', "");
           });
         });
       };
+
+      // $http.jsonp(that.solrUrl, {params: that.buildSearchParams(), cache:true})
+      //   .success(function(data) {
+      //     console.log("GET success");
+      //     console.log(data);
+      //     that.facet_results = data.facet_counts;
+      //     $scope.docs = that.mapDocAndHl(data.response.docs, data.highlighting);
+      //     $scope.numFound = data.response.numFound;
+      //     that.selected_facets = that.getSelectedFacets();
+      //     that.selected_facets_obj = that.getSelectedFacetsObjects();
+      //     $scope.pagecount = Math.ceil($scope.numFound / that.getRows() - 1);
+      //     $scope.searchTime = data.responseHeader.QTime / 100;
+      //   });
+      // };
     }
 
   }
