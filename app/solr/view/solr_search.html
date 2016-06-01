@@ -1,6 +1,6 @@
 <form class="form-inline search-form form-group" ng-submit="search(query, rows)">
   <div class="input-group">
-    <input ng-model="query" type="search" class="form-control" id="search-input" placeholder="Search..." />
+    <input ng-model="query" type="search" class="form-control" id="search-input" autocomplete="off" placeholder="Search..." uib-typeahead="suggest for suggest in getSuggest($viewValue)" typeahead-loading="loadingSuggestions" typeahead-no-results="noResults" class="form-control"/>
     <span class="input-group-btn">
       <button type="submit" class="btn btn-primary glyphicon glyphicon-search" id="search-button"></button>
     </span>

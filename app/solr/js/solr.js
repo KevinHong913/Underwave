@@ -1,4 +1,4 @@
-var solr = angular.module("solr", ['ui.router'])
+var solr = angular.module("solr", ['ui.router','ui.bootstrap'])
 
 // .factory('searchMode', [function() {
 //   var searchMode = {};
@@ -134,7 +134,7 @@ var solr = angular.module("solr", ['ui.router'])
   }
 })
 
-.directive("solrSearch", function($location, $state, $rootScope) {
+.directive("solrSearch", function($location, $state, $rootScope, $http) {
   return {
     scope:{
     },
@@ -166,6 +166,20 @@ var solr = angular.module("solr", ['ui.router'])
       if (scope.preload){
         scope.search(scope.query, scope.rows);
       }
+
+      scope.getSuggest = function(val) {
+        return $http.get('//ec2-54-200-117-57.us-west-2.compute.amazonaws.com:8983/solr/vessels/suggesthandler', {
+        params: {
+          indent: 'on',
+          q: val,
+          wt: 'json'
+        }
+        }).then(function(response){
+          return response.suggest.mySuggester[val].suggestions.map(function(item){
+            return term;
+          });
+        });
+      };
     }
 
   }
