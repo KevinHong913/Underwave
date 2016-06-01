@@ -1,42 +1,45 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    <h5>
-      <a ng-href="{{doc.response['url'][0]}}" target="_blank">
-        {{doc.highlight["keyValues.vesselName"][0] || doc.response["keyValues.vesselName"][0] || "N/A"}}
-      </a>
-    </h5>
+<!-- <div class="">
+  <div class=""> -->
     <div class="result-detail-panel row">
-      <div class="col-sm-4">
-        <img class="vessel-thumbnail" ng-src="{{doc.response['keyValues.vesselImgUrl'][0]}}">
+      <div class="col-sm-5">
+        <a class="thumbnail-link ng-href="{{doc.response['url'][0]}}" target="_blank">
+          <img class="vessel-thumbnail" ng-src="{{doc.response['keyValues.vesselImgUrl'][0] || './assets/img/image-unavailable.jpg'}}">
+        </a>
       </div>
-      <div class="col-sm-8">
-      <table class="result-detail-table">
-        <tr>
-          <th>IMO</th>
-          <td>{{doc.highlight["keyValues.vesselMMSI"][0] || doc.response["keyValues.vesselMMSI"][0] || "N/A"}}</td>
-        </tr>
-        <tr>
-          <th>Flag</th>
-          <td>{{doc.highlight["keyValues.vesselFlag"][0] || doc.response["keyValues.vesselFlag"][0] || "N/A"}}</td>
-        </tr>
-        <tr>
-          <th>Ship Type</th>
-          <td>{{doc.highlight["keyValues.vesselType"][0] || doc.response["keyValues.vesselType"][0] || "N/A"}}</td>
-        </tr>
-        <tr>
-          <th>Built</th>
-          <td>{{doc.highlight["keyValues.ValidPeriod"][0] || doc.response["keyValues.ValidPeriod"][0] || "N/A"}}</td>
-        </tr>
-        <tr>
-          <th>Size</th>
-          <td>{{doc.highlight["keyValues.vesselSizeLength"][0] || doc.response["keyValues.vesselSizeLength"][0] || "N/A" }} x {{doc.highlight["keyValues.vesselSizeWidth"][0] || doc.response["keyValues.vesselSizeWidth"][0] || "N/A"}}m</td>
-        </tr>
-        <tr>
-          <th>GT</th>
-          <td>{{doc.highlight["keyValues.vesselGrossTonnage"][0] || doc.response["keyValues.vesselGrossTonnage"][0] || "N/A"}}</td>
-        </tr>
-      </table>
+      <div class="col-sm-7">
+      <h4>
+        <a ng-href="{{doc.response['url'][0]}}" target="_blank">
+          {{doc.highlight["keyValues.vesselName"][0] || doc.response["keyValues.vesselName"][0] || "N/A"}}
+        </a>
+      </h4>
+        <table class="result-detail-table">
+          <tr>
+            <th>IMO</th>
+            <td>{{doc.highlight["keyValues.vesselMMSI"][0] || doc.response["keyValues.vesselMMSI"][0] || "N/A"}}</td>
+          </tr>
+          <tr>
+            <th>Flag</th>
+            <td>{{doc.highlight["keyValues.vesselFlag"][0] || doc.response["keyValues.vesselFlag"][0] || "N/A"}}</td>
+          </tr>
+          <tr>
+            <th>Ship Type</th>
+            <td>{{doc.highlight["keyValues.vesselType"][0] || doc.response["keyValues.vesselType"][0] || "N/A"}}</td>
+          </tr>
+          <tr>
+            <th>Built</th>
+            <td>{{doc.highlight["keyValues.ValidPeriod"][0] || doc.response["keyValues.ValidPeriod"][0] || "N/A"}}</td>
+          </tr>
+          <tr>
+            <th>Size</th>
+            <td>{{doc.highlight["keyValues.vesselSizeLength"][0] || doc.response["keyValues.vesselSizeLength"][0] || "N/A" }} x {{doc.highlight["keyValues.vesselSizeWidth"][0] || doc.response["keyValues.vesselSizeWidth"][0] || "N/A"}}m</td>
+          </tr>
+          <tr>
+            <th>GT</th>
+            <td>{{doc.highlight["keyValues.vesselGrossTonnage"][0] || doc.response["keyValues.vesselGrossTonnage"][0] || "N/A"}}</td>
+          </tr>
+        </table>
+      </div>
     </div>
-    </div>
-  </div>
-</div>
+    <hr>
+<!--   </div>
+</div> -->

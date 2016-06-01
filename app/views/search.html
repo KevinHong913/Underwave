@@ -6,44 +6,48 @@
 </div>
 
 <!-- <div class="row result-template" ng-hide={{inSearch.mode}}> -->
-<div class="row result-template">
-  <div class="col-sm-3">
-    <div class="search-logo" ng-click='goHome()'>
-      <img src="assets/img/UNDERWAVE_small.png">
+<div class="result-template">
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="search-logo" ng-click='goHome()'>
+        <img src="assets/img/UNDERWAVE_small.png">
+      </div>
+    </div>  
+
+    <div class="col-sm-9">
+      <solr-search query='{{params.q}}' preload='true'></solr-search>
+      <div id="result-info" class="row">
+        <div class="col-md-6">
+          <span id="result-time-bar">About {{numFound.toLocaleString()}} results ({{searchTime}} seconds)</span>
+        </div>
+        <div class="col-md-6">
+          <result-pagination pagecount='pagecount' currentpage='currentpage'></result-pagination>
+        </div>
+      </div>
     </div>
-    <solr-facet-group>
-      <solr-selected><h3>Selected Facet:</h3></solr-selected>
-      <h3>Facet List:</h3>
-      <solr-facet display="Flag Country" field="keyValues.vesselFlag" range=false ></solr-facet>
-      <solr-facet display="Length" field="keyValues.vesselSizeLength" range=true ></solr-facet>
-      <solr-facet display="Width"  field="keyValues.vesselSizeWidth" range=true ></solr-facet>
-    </solr-facet-group>
   </div>
-  <div class="col-md-9">
-    <solr-search query='{{params.q}}' preload="true"></solr-search>
-    <h3>Results ({{numFound}})</h3>
-    <result-pagination pagecount='pagecount' currentpage='currentpage'></result-pagination>
 
-<!-- 		<ul class="pagination">
-		  <li>
-		    <a href="#" aria-label="Previous">
-		      <span aria-hidden="true">&laquo;</span>
-		    </a>
-		  </li>
-		  <li ng-repeat="page in getPage() | limitTo: 10"><a>{{$index}}</a></li>
-		  <li>
-		    <a href="#" aria-label="Next">
-		      <span aria-hidden="true">&raquo;</span>
-		    </a>
-		  </li>
-		  <li><a ng-click= 'currentPage == 0 || prevPage()'>Previous Page</a></li>
-		  <li><a ng-click=' currentPage == PageCount || nextPage()'>Next Page</a></li>
-		</ul> -->
+  <div class="row">
+    <div class="col-sm-3">
+      
+      <solr-facet-group>
+        <solr-selected><h4 class="bold-font">Selected Facet:</h4></solr-selected>
+        <h4 class="bold-font">Facet List:</h4>
+        <solr-facet display="Flag Country" field="keyValues.vesselFlag" range=false ></solr-facet>
+        <solr-facet display="Length" field="keyValues.vesselSizeLength" range=true ></solr-facet>
+        <solr-facet display="Width"  field="keyValues.vesselSizeWidth" range=true ></solr-facet>
+      </solr-facet-group>
+    </div>
+    <div class="col-md-9">
+      <div class="result-panel panel panel-default">
+        <ul class="list-unstyled">
+          <li ng-repeat="doc in docs">
+            <result-document record=doc ></result-document>
+          </li>
+        </ul>
+      </div>
+      <result-pagination pagecount='pagecount' currentpage='currentpage'></result-pagination>
 
-    <ul class="list-unstyled">
-      <li ng-repeat="doc in docs">
-        <result-document record=doc ></result-document>
-      </li>
-    </ul>
+    </div>
   </div>
 </div>
