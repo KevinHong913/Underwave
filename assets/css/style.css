@@ -2,67 +2,134 @@
 html, body {
 	/*height: 100%;*/
 	background-color: #fdfdfd;
+	/*background-color: #F5F1D0;*/
 }
 
 body {
 	padding-bottom: 50px;
 }
+
+body * {
+	font-family: 'Open Sans', sans-serif;
+}
+
 footer {
 	position: absolute;
 	bottom: 0;
 }
 
+.bold-font {
+	font-weight: 700;
+}
+
+.normal-font {
+	font-weight: 400;
+}
+
+.light-font {
+	font-weight: 300;
+}
+
+/* ------ FACET ------ */
+.solr-facet-template {
+	/*margin-left: 15px;*/
+}
+
+.solr-facet-template span {
+	size: 18px;
+}
+
+.facet-list {
+	list-style: none;
+	/*padding-left: 15px;*/
+}
 
 /* ------ SEARCH ------ */
-.search-template {
-	padding-top: 15vh;
-	width: 50vw;
-	margin: auto;
-
-}
-
-.search-template .search-form {
+.search-form {
 	/*margin: auto;*/
-	margin-top: 30px;
-	text-align: center;
+	padding-top: 60px;
+	/*text-align: center;*/
+	padding-bottom: 45px;
 }
 
-.search-template .search-logo {
+.search-form #search-input {
+	width: 400px;
+	/*max-width: 300px;	*/
+}
+
+.search-form #search-select {
+	/*height: 100%;*/
+	box-shadow: none;
+	width: 45px;
+}
+
+.search-logo {
 	text-align: center;
 	margin: auto;
 }
 
-.search-template .search-form .search-input {
-	width: 300px;
-	max-width: 300px;	
+#search-button {
+	top: 0px;
 }
 
 /* ------ RESULT ------ */
 .result-template {
-	padding-top: 50px;
+	padding-top: 10px;
+}
+
+.result-template .result-panel {
+	padding: 10px;
 }
 
 .result-template .search-logo {
 	text-align: center;
 	margin: auto;
+	margin-bottom: 20px;
 }
 
 .result-template .search-logo img {
-	width: 60%;
+	width: 80%;
 	height: auto;
 }
 
-.result-detail-panel .vessel-thumbnail {
-	width: 100%;
+.result-template .thumbnail-link {
+	width: 80%;
+	/*display: inline-block;*/
 }
 
-.result-pagination {
+
+.result-detail-panel .vessel-thumbnail {
 	width: 100%;
-	margin-top: 15px;
-	margin-bottom: 15px;
+	padding: 4px;
+	border: solid 4px #fff;
+	/*display: block;*/
+}
+
+.result-detail-panel .result-detail-table tr {
+	line-height: 22px;
+}
+
+.result-detail-panel .result-detail-table td {
+	padding-left: 10px;
+}
+
+#result-info {
+	height: 40px;
+}
+
+#result-info #result-time-bar {
+	line-height: 40px;
+	padding-left: 5px;
+	color: rgb(128, 128, 128);
+}
+
+.result-pagination ul {
+	/*width: 100%;*/
+	/*margin-top: 15px;*/
+	/*margin-bottom: 15px;*/
+	margin: 0px;
 }
 
 .result-pagination .pagination {
-	margin: auto;
-	display: table;
+	float: right;
 }

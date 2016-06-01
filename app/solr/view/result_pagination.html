@@ -1,8 +1,8 @@
 <div class="result-pagination">
-  <ul class="pagination" ng-init="limit = 10;">
+  <ul class="pagination" ng-init="limit = 5;">
     <li><a ng-click='prevPage()' aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
     
-    <li ng-repeat='x in [].constructor(pagecount) track by $index' ng-if="$index < limit"><a ng-click="setPage($index)">{{$index + 1}}</a></li>
+    <li ng-repeat='x in [].constructor(pagecount) track by $index' ng-if="$index < limit" ng-class="{active: $index == currentpage}"><a ng-click="setPage($index)">{{$index + 1}}</a></li>
     <li><a ng-click='nextPage()' aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
     <li><span>Current: {{currentpage + 1}}</span></li>
   </ul>

@@ -1,7 +1,9 @@
-<form class="form-inline search-form" ng-submit="search(query, rows)">
-	<div class="form-group">
-	  <input ng-model="query" type="search" class="form-control search-input" placeholder="Search..." />
-	</div>
-	<select ng-model="rows" ng-options="r for r in roptions"></select>
-	<button type="submit" class="btn btn-default">Search</button>
+<form class="form-inline search-form form-group" ng-submit="search(query, rows)">
+  <div class="input-group">
+    <input ng-model="query" type="search" class="form-control" id="search-input" placeholder="Search..." />
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-primary glyphicon glyphicon-search" id="search-button"></button>
+    </span>
+  </div>
+  <select id="search-select" class="form-control" ng-model="rows" ng-options="r for r in roptions"></select>
 </form>

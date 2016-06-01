@@ -34,7 +34,7 @@ var solr = angular.module("solr", ['ui.router'])
   this.setFacetResult = function( facet_key, facet_results ){
     for (var k in $scope.facets){
       if ($scope.facets[k].field === facet_key){
-        if(!!$scope.facets[k].range) {
+        if($scope.facets[k].range) {
           $scope.facets[k].results = facet_results.counts;
           $scope.facets[k].gap = facet_results.gap;
 
@@ -188,7 +188,8 @@ var solr = angular.module("solr", ['ui.router'])
 
       var es5getprops = Object.getOwnPropertyNames;
       scope.isEmpty = function() {
-        return !scope.results || (es5getprops(scope.results).length === 0);
+        return !scope.results || ( Object.keys(scope.results).length === 0);
+        // es5getprops(scope.results).length
         // return (es5getprops(scope.results).length === 0);
       };
 
@@ -204,7 +205,11 @@ var solr = angular.module("solr", ['ui.router'])
       
         }
         scope.resultsArray = res;
-      }
+      };
+
+      scope.logLimit = function(limit) {
+        console.log(limit);
+      };
     }
   }
 })
@@ -289,7 +294,8 @@ var solr = angular.module("solr", ['ui.router'])
       numFound: '=',
       currentpage: '=',
       pagecount: '=',
-      highlights: '='
+      highlights: '=',
+      searchTime: '='
     },
     restrict: 'E',
     transclude: true,
@@ -369,6 +375,7 @@ var solr = angular.module("solr", ['ui.router'])
           that.selected_facets = that.getSelectedFacets();
           that.selected_facets_obj = that.getSelectedFacetsObjects();
           $scope.pagecount = Math.ceil($scope.numFound / that.getRows() - 1);
+          $scope.searchTime = data.responseHeader.QTime / 100;
         });
       };
 
